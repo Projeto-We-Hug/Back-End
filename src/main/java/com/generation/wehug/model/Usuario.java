@@ -15,6 +15,8 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @Entity
 @Table(name = "tb_usuario")
 public class Usuario {
@@ -27,27 +29,31 @@ public class Usuario {
 	@Size(min = 2, max = 100, message = "O Campo nome deve conter no mínimo 2 caracteres")
 	private String nome;
 	
+	@Schema(example = "email@email.com.br")
 	@NotBlank(message = "O Campo não pode ficar em branco")
 	@Email
-	@Size(min = 5, max = 100, message = "O Campo usuario deve conter no mínimo 5 caracteres")
+	@Email(message = "O atributo Usuário deve ser um email válido!")
 	private String usuario;
 	
 	@NotBlank(message = "O Campo não pode ficar em branco")
-	@Size(min = 5, max = 100, message = "O campo senha deve conter no mínimo 5 caracteres")
+	@Size(min = 3,  message = "O campo senha deve conter no mínimo 5 caracteres")
 	private String senha;
 	
 	private String foto;
+	
+	private String tipo;
 	
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")
 	private List<Postagem> postagem;
 
-	public Usuario(long id, String nome, String usuario, String senha, String foto) {
+	public Usuario(long id, String nome, String usuario, String senha, String foto, String tipo) {
 		this.id = id;
 		this.nome = nome;
 		this.usuario = usuario;
 		this.senha = senha;
 		this.foto = foto;
+		this.tipo = tipo;
 	}
 	
 	public Usuario() {
@@ -101,5 +107,15 @@ public class Usuario {
 	public void setPostagem(List<Postagem> postagem) {
 		this.postagem = postagem;
 	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	
+	
 	
 }

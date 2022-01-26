@@ -1,12 +1,19 @@
 package com.generation.wehug.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 @Table(name = "tb_tema")
@@ -17,16 +24,20 @@ public class Tema {
 	private long id;
 
 	@NotBlank(message = "O campo não pode ficar em branco")
-	@Size(min = 10, max = 50, message = "O tópico deverá ter no mínimo 10 caracteres")
+	@Size(min = 1, max = 50, message = "O tópico deverá ter no mínimo 10 caracteres")
 	private String topicoPrincipal;
 
 	@NotBlank(message = "O campo não pode ficar em branco")
-	@Size(min = 10, max = 50, message = "O sub tópico deverá ter no mínimo 10 caracteres")
+	@Size(min = 1, max = 50, message = "O sub tópico deverá ter no mínimo 10 caracteres")
 	private String subTopicos;
 
 	@NotBlank(message = "O campo não pode ficar em branco")
-	@Size(min = 50, max = 1000, message = "A descrição deverá ter no mínimo 50 caracteres")
+	@Size(min = 1, max = 1000, message = "A descrição deverá ter no mínimo 50 caracteres")
 	private String descricao;
+	
+	@OneToMany(mappedBy = "tema", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("tema")
+	private List<Postagem> postagem;
 
 	public long getId() {
 		return id;
@@ -60,4 +71,12 @@ public class Tema {
 		this.descricao = descricao;
 	}
 
+	public List<Postagem> getPostagem() {
+		return postagem;
+	}
+
+	public void setPostagem(List<Postagem> postagem) {
+		this.postagem = postagem;
+	}
+		
 }
