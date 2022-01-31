@@ -31,7 +31,6 @@ public class Usuario {
 	
 	@Schema(example = "email@email.com.br")
 	@NotBlank(message = "O Campo não pode ficar em branco")
-	@Email
 	@Email(message = "O atributo Usuário deve ser um email válido!")
 	private String usuario;
 	
