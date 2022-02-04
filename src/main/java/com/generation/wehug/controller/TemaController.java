@@ -22,7 +22,7 @@ import com.generation.wehug.repository.TemaRepository;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/tema")
+@RequestMapping("/temas")
 
 public class TemaController {
 
@@ -36,11 +36,13 @@ public class TemaController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Tema> getById(@Valid @PathVariable long id) {
-		return repository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.notFound().build());
+		return repository.findById(id)
+				.map(resp -> ResponseEntity.ok(resp))
+				.orElse(ResponseEntity.notFound().build());
 	}
 
 	@GetMapping("/topicoPrincipal/{topicoPrincipal}")
-	public ResponseEntity<List<Tema>> getByTopicoPrincipal(@Valid @PathVariable String topicoPrincipal) {
+	public ResponseEntity<List<Tema>> getByTopicoPrincipal(@PathVariable String topicoPrincipal) {
 		return ResponseEntity.ok(repository.findAllByTopicoPrincipalContainingIgnoreCase(topicoPrincipal));
 	}
 
@@ -52,17 +54,21 @@ public class TemaController {
 	@PutMapping
 	public ResponseEntity<Tema> putCategoria(@Valid @RequestBody Tema tema) {
 
-		return repository.findById(tema.getId()).map(resposta -> {
-			return ResponseEntity.ok().body(repository.save(tema));
-		}).orElse(ResponseEntity.notFound().build());
+		return repository.findById(tema.getId())
+				.map(resposta -> {
+					return ResponseEntity.ok().body(repository.save(tema));
+		})
+				.orElse(ResponseEntity.notFound().build());
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteRepository(@Valid @PathVariable long id) {
-		return repository.findById(id).map(resposta -> {
+	public ResponseEntity<?> deleteRepository(@PathVariable long id) {
+		return repository.findById(id)
+			.map(resposta -> {
 			repository.deleteById(id);
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		}).orElse(ResponseEntity.notFound().build());
+		})
+				.orElse(ResponseEntity.notFound().build());
 	}
 
 }

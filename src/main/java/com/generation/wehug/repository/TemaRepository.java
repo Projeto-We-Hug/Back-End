@@ -11,4 +11,6 @@ import com.generation.wehug.model.Tema;
 public interface TemaRepository extends JpaRepository<Tema, Long> {
 	
 	public List<Tema> findAllByTopicoPrincipalContainingIgnoreCase(String topicoPrincipal);
+	
+
 }
